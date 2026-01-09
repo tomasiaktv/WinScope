@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="WinScope.App/WinScope.App.csproj" />
+  <Project Path="WinScope.Core/WinScope.Core.csproj" />
+  <Project Path="WinScope.Models/WinScope.Models.csproj" />
+  <Project Path="WinScope.Platform/WinScope.Platform.csproj" />
+  <Project Path="WinScope.Tests/WinScope.Tests.csproj" />
+</Solution>
