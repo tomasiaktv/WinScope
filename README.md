@@ -9,7 +9,7 @@ WinScope
 WinScope is a Windows desktop process monitoring application built with C#, WPF, and the MVVM pattern.
 It provides real-time insight into running system processes, including CPU usage, memory consumption, and core process metadata, while emphasizing clean architecture, explainable systems logic, and responsive UI design.
 
-![WinScope Screenshot](Screenshots/main.png)
+![WinScope Screenshot](ScreenShots/main.png)
 
 This project was built as a portfolio piece to demonstrate Windows-focused engineering, asynchronous programming, and systems-level reasoning rather than visual polish or feature bloat.
 
