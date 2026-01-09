@@ -13,138 +13,149 @@ It provides real-time insight into running system processes, including CPU usage
 
 This project was built as a portfolio piece to demonstrate Windows-focused engineering, asynchronous programming, and systems-level reasoning rather than visual polish or feature bloat.
 
+## Project Structure
+
+```
+WinScope/
+├── WinScope.App        (WPF UI)
+├── WinScope.Core       (Interfaces and abstractions)
+├── WinScope.Models     (Data models)
+├── WinScope.Platform   (Windows system integration)
+└── WinScope.Tests      (Test project scaffold)
+```
+
 Features
+---
+- Real-time process list with automatic refresh
 
-Real-time process list with automatic refresh
+- Per-process CPU usage (sampling-based calculation)
 
-Per-process CPU usage (sampling-based calculation)
+- Memory usage (working set)
 
-Memory usage (working set)
+- Process metadata (name, PID)
 
-Process metadata (name, PID)
+- Selection preserved across refresh cycles
 
-Selection preserved across refresh cycles
+- Responsive UI with no blocking operations
 
-Responsive UI with no blocking operations
-
-Graceful handling of access-restricted processes
+- Graceful handling of access-restricted processes
 
 How CPU Usage Is Calculated
-
+---
 Windows does not provide instantaneous CPU percentage per process.
 WinScope computes CPU usage by sampling CPU time over intervals:
 
-Capture each process’s TotalProcessorTime
+1. Capture each process’s TotalProcessorTime
 
-Wait for a fixed interval
+1. Wait for a fixed interval
 
-Capture CPU time again
+1. Capture CPU time again
 
-Calculate the delta CPU time used
+1. Calculate the delta CPU time used
 
-Divide by elapsed wall-clock time
+1. Divide by elapsed wall-clock time
 
-Normalize by logical processor count
+1. Normalize by logical processor count
 
-This produces a stable, explainable CPU percentage and mirrors how professional monitoring tools operate.
+1. This produces a stable, explainable CPU percentage and mirrors how professional monitoring tools operate.
 
 Architecture Overview
-
+---
 WinScope follows a layered design with clear separation of concerns:
 
 Models (WinScope.Models)
+---
+- Defines immutable data models used across the application.
 
-Defines immutable data models used across the application.
+- ProcessInfo represents a snapshot of a running process
 
-ProcessInfo represents a snapshot of a running process
-
-Includes raw system data and computed display properties
+- Includes raw system data and computed display properties
 
 Core (WinScope.Core)
+---
+- Defines abstractions and contracts.
 
-Defines abstractions and contracts.
+- IProcessSnapshotProvider describes how process data is retrieved
 
-IProcessSnapshotProvider describes how process data is retrieved
-
-UI depends only on interfaces, not implementations
+- UI depends only on interfaces, not implementations
 
 Platform (WinScope.Platform)
+---
+- Implements system-specific logic using Windows APIs.
 
-Implements system-specific logic using Windows APIs.
+- Uses System.Diagnostics.Process
 
-Uses System.Diagnostics.Process
+- Handles CPU sampling, memory collection, and exception safety
 
-Handles CPU sampling, memory collection, and exception safety
-
-Encapsulates all OS interaction
+- Encapsulates all OS interaction
 
 App (WinScope.App)
+---
+- Contains the WPF UI and ViewModels.
 
-Contains the WPF UI and ViewModels.
+- MainViewModel manages refresh logic and state
 
-MainViewModel manages refresh logic and state
+- Uses async/await with cancellation
 
-Uses async/await with cancellation
+- MainView is a pure UI UserControl with bindings only
 
-MainView is a pure UI UserControl with bindings only
+- MainWindow hosts the application and manages lifetime
 
-MainWindow hosts the application and manages lifetime
-
-This structure keeps the codebase maintainable, testable, and extensible.
+- This structure keeps the codebase maintainable, testable, and extensible.
 
 Technology Stack
+---
+- C#
 
-C#
+- .NET 8
 
-.NET 8
+- WPF
 
-WPF
+- MVVM
 
-MVVM
+- async/await
 
-async/await
+- Windows Diagnostics APIs
 
-Windows Diagnostics APIs
-
-xUnit (test project scaffolded)
+- xUnit (test project scaffolded)
 
 Running the Project
+---
+1. Clone the repository
 
-Clone the repository
+1. Open WinScope.sln in Visual Studio
 
-Open WinScope.sln in Visual Studio
+1. Ensure .NET 8 is installed
 
-Ensure .NET 8 is installed
+1. Build and run the WinScope.App project
 
-Build and run the WinScope.App project
-
-The application will start monitoring processes automatically.
+1. The application will start monitoring processes automatically.
 
 Design Goals
+---
+1. Demonstrate systems-level thinking without unsafe or native code
 
-Demonstrate systems-level thinking without unsafe or native code
+1. Favor clarity and explainability over clever tricks
 
-Favor clarity and explainability over clever tricks
+1. Keep UI logic separate from system logic
 
-Keep UI logic separate from system logic
+1. Handle real-world OS constraints gracefully
 
-Handle real-world OS constraints gracefully
-
-Reflect professional Windows tooling patterns
+1. Reflect professional Windows tooling patterns
 
 Future Improvements
+---
+- Sorting and filtering by CPU or memory usage
 
-Sorting and filtering by CPU or memory usage
+- Threshold-based highlighting (resource spikes)
 
-Threshold-based highlighting (resource spikes)
+- Historical snapshots
 
-Historical snapshots
+- GPU metrics (best-effort, hardware-dependent)
 
-GPU metrics (best-effort, hardware-dependent)
-
-Additional unit tests around sampling logic
+- Additional unit tests around sampling logic
 
 Why This Project Exists
-
+---
 WinScope was built to bridge the gap between academic coursework and real-world systems development.
 It focuses on how Windows actually exposes process information, how monitoring tools derive metrics, and how to design software that is robust under real operating system constraints.
