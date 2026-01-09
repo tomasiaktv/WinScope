@@ -1,3 +1,9 @@
+![Platform](https://img.shields.io/badge/platform-Windows-blue)
+![Language](https://img.shields.io/badge/language-C%23-blueviolet)
+![Framework](https://img.shields.io/badge/.NET-8.0-purple)
+![UI](https://img.shields.io/badge/UI-WPF-informational)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 WinScope
 
 WinScope is a Windows desktop process monitoring application built with C#, WPF, and the MVVM pattern.
